@@ -302,7 +302,7 @@ function populateInfoWindow(marker, infowindow) {
         var wikiURL = 'https://en.wikipedia.org/w/api.php'
                     + '?format=json&action=query&prop=extracts&exintro=&explaintext=&titles='
                     + marker.title;
-       
+        infowindow.setContent('');
         $.ajax({
             url: wikiURL,
             method: "GET",
