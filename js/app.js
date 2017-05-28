@@ -2,6 +2,8 @@ var map;
 
 var viewModel;
 
+var largeInfowindow;
+
 var locations = [{
         title: 'Big Ben',
         lat: 51.500729,
@@ -240,9 +242,14 @@ function initMap() {
 
     var defaultIcon = makeMarkerIcon('f75850');
     var highlightedIcon = makeMarkerIcon('FFFF24');
-    var largeInfowindow = new google.maps.InfoWindow();
+    largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
     var markers = [];
+
+
+    viewModel = new ViewModel();
+    
+    ko.applyBindings(viewModel);
 
     for (var i = 0; i < locations.length; i++) {
         var title = locations[i].title;
@@ -282,7 +289,6 @@ function initMap() {
 }
 
 
-
 /**
  * @description This function populates the infowindow
  * when corresponding marker is clicked.
@@ -293,7 +299,7 @@ function initMap() {
  * A closeclick event listener is add to infowindow as well.
  */
 function populateInfoWindow(marker, infowindow) {
-    if (infowindow.marker != marker) {
+    if (infowindow.marker !== marker) {
         var content = '';
         content += '<h1 class="marker-title">'
                 + marker.title
@@ -338,6 +344,7 @@ function populateInfoWindow(marker, infowindow) {
     }
 }
 
+
 /**
  * @description Location Model
  */
@@ -346,6 +353,7 @@ var Location = function(data) {
     this.lag = data.lag;
     this.lng = data.lng;
 };
+
 
 /**
  * @description It will filter user's input and return matched results.
@@ -368,6 +376,7 @@ var ViewModel = function() {
     this.query = ko.observable('');
 
     this.queryResults = ko.computed(function() {
+        largeInfowindow.close();
 
         return ko.utils.arrayFilter(self.locationList(), function(singleLocation) {
             if (singleLocation.marker) {
@@ -393,9 +402,3 @@ var ViewModel = function() {
         this.toggledNav(!this.toggledNav());
     };
 };
-
-
-viewModel = new ViewModel();
-
-
-ko.applyBindings(viewModel);
