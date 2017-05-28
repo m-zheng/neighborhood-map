@@ -92,15 +92,15 @@ var locations = [{
 
 
 /**
-* @description return error message when loading google map incorrectly
-*/
+ * @description return error message when loading google map incorrectly
+ */
 function googleError() {
     alert('oops, the google map wasn\'t loaded properly!');
 }
 
 /**
-* @description load google map via google map api
-*/
+ * @description load google map via google map api
+ */
 function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
@@ -108,7 +108,116 @@ function initMap() {
             lat: 51.500729,
             lng: -0.124603
         },
-        zoom: 13
+        zoom: 13,
+        // STYLES START
+        styles: [{
+                "featureType": "landscape.man_made",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#f7f1df"
+                }]
+            },
+            {
+                "featureType": "landscape.natural",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#d0e3b4"
+                }]
+            },
+            {
+                "featureType": "landscape.natural.terrain",
+                "elementType": "geometry",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "labels",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            },
+            {
+                "featureType": "poi.business",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            },
+            {
+                "featureType": "poi.medical",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#fbd3da"
+                }]
+            },
+            {
+                "featureType": "poi.park",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#bde6ab"
+                }]
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ffe15f"
+                }]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#efd151"
+                }]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ffffff"
+                }]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "black"
+                }]
+            },
+            {
+                "featureType": "transit.station.airport",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#cfb2db"
+                }]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#a2daf2"
+                }]
+            }
+        ]
+
+        // STYLES END
     });
 
     // This function takes in a COLOR, and then creates a new marker
@@ -193,10 +302,10 @@ function initMap() {
 
 
 /**
-* @description This function populates the infowindow when the marker is clicked.
-* Only one infowindow which will open at the marker that is clicked,
-* and populate based on that markers position.
-*/
+ * @description This function populates the infowindow when the marker is clicked.
+ * Only one infowindow which will open at the marker that is clicked,
+ * and populate based on that markers position.
+ */
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -211,7 +320,7 @@ function populateInfoWindow(marker, infowindow) {
                 var content = '';
                 var wikiPage = "https://en.wikipedia.org/?curid=" + i;
                 var wikiSummary = item.extract.substring(0, 250);
-                content += '<h3>' + marker.title + '</h3><p>' + wikiSummary + ' ...<a target="_blank" href="' + wikiPage + '">Read More</a> </p>';
+                content += '<h1 class="marker-title">' + marker.title + '</h1><p class="marker-summary">' + wikiSummary + ' ...<a target="_blank" href="' + wikiPage + '">Read More</a> </p>';
                 infowindow.setContent(content);
             });
 
@@ -232,8 +341,8 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 /**
-* @description Location Model
-*/
+ * @description Location Model
+ */
 var Location = function(data) {
     this.title = data.title;
     this.lag = data.lag;
@@ -241,8 +350,8 @@ var Location = function(data) {
 };
 
 /**
-* @description ViewModel
-*/
+ * @description ViewModel
+ */
 var ViewModel = function() {
     var self = this;
 
